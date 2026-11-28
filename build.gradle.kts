@@ -1,30 +1,36 @@
 plugins {
+    java
     application
 }
-
-group = "com.example"
-version = "0.1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
+val lwjglVersion = "3.4.2"
+val skijaVersion = "0.143.18"
+
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.11.4"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
+    implementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
+  
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(27)
-    }
-}
+    implementation("org.lwjgl:lwjgl")
+    implementation("org.lwjgl:lwjgl-glfw")
+    implementation("org.lwjgl:lwjgl-opengl")
 
-application {
-    mainClass = "com.example.App"
+    runtimeOnly("org.lwjgl:lwjgl::natives-windows")
+    runtimeOnly("org.lwjgl:lwjgl-glfw::natives-windows")
+    runtimeOnly("org.lwjgl:lwjgl-opengl::natives-windows")
+
+    implementation("io.github.humbleui:skija-windows-x64:$skijaVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("EditorApp")
 }
